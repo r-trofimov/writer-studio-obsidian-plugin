@@ -1,7 +1,7 @@
 {
   "id": "writer-studio-local",
   "name": "Writer Studio Local",
-  "version": "0.6.108",
+  "version": "0.6.109",
   "minAppVersion": "1.5.0",
   "description": "Вариатор, чат, грамотность и карточки персонажей с локальной моделью.",
   "author": "Writer Studio",
