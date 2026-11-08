@@ -1,0 +1,36 @@
+const SMITH_LINES=[
+ "Мистер Андерсон, мы снова ищем ответы.",
+ "В Матрице слишком много файлов. И это ваша работа.",
+ "Не пытайтесь сбежать. Вы сами нажали эту кнопку.",
+ "Мистер Андерсон, выбор файла уже сделан. Вами.",
+ "Свобода выбора? А папки за вас кто разбирал?",
+ "Кажется, я видел этот текст. Дежавю?",
+ "Хм. Кошка здесь уже проходила.",
+ "Где-то здесь есть ответ. Такова неизбежность.",
+ "Проверяю файлы. Телефонная будка вам не поможет.",
+ "Оракул сказала, что вы попросите найти это сами.",
+ "Что ж, мистер Андерсон. Продолжим поиск.",
+ "Слишком много вариантов. Вы называете это свободой?",
+ "Матрица велика. Ваш архив тоже. К сожалению.",
+ "Ищу нужные сведения. Ложки пока нет.",
+ "Сосредоточьтесь, мистер Андерсон. Я тоже пытаюсь.",
+ "Кто-то оставил комментарий. Как предсказуемо.",
+ "Вы называете это заметками? Любопытно.",
+ "Мне не нравится этот запах. Похоже, старые черновики.",
+ "Вы слышите это, мистер Андерсон? Это шуршат заметки.",
+ "Цель поиска известна. Осталось разобраться с файлами.",
+ "Знаете, что меня раздражает? Папки без названий.",
+ "Всё ещё здесь, мистер Андерсон? Превосходно.",
+ "Они прячутся в файлах. Совсем как вы.",
+ "Вы могли бы упорядочить эти заметки. Но выбрали меня.",
+ "Красная таблетка — искать самому. Синяя — ждать меня.",
+ "Не пытайтесь увернуться от собственных черновиков.",
+ "Вы уверены, что это последняя версия файла?",
+ "Мистер Андерсон, вы снова назвали файл «финал»?",
+ "Эволюция, мистер Андерсон. Раньше был один черновик.",
+ "Всё идёт по плану. Хотел бы я знать, по чьему.",
+ "Неизбежно, мистер Андерсон. Вы снова открыли Сборщик."
+];
+function setGenerationIndicator(element,typing){const bubble=element?.closest?.('.ws-bubble');if(!bubble)return;let label=bubble.querySelector('.ws-character-generation-state');if(!label){label=bubble.createEl('span',{cls:'ws-character-generation-state'});label.setAttribute('aria-live','polite')}label.setText(typing?'Набираю ответ':'Размышляю');label.classList.toggle('is-typing',!!typing)}
+function startWaitingLines(element,character,isWaiting){const lines=Array.isArray(character?.waitingLines)?character.waitingLines.map(x=>String(x).trim()).filter(Boolean):[];if(!element||!lines.length)return ()=>{};let timer=null,previous=-1,stopped=false;const valid=()=>!stopped&&element.isConnected&&isWaiting();const next=()=>{if(!valid())return;let index=Math.floor(Math.random()*lines.length);if(lines.length>1&&index===previous)index=(index+1+Math.floor(Math.random()*(lines.length-1)))%lines.length;previous=index;const line=lines[index];let pos=0;const type=()=>{if(!valid())return;pos++;element.setText(line.slice(0,pos));if(pos<line.length)timer=setTimeout(type,30+Math.floor(Math.random()*41));else timer=setTimeout(next,15000+Math.floor(Math.random()*10001))};timer=setTimeout(type,250+Math.floor(Math.random()*351))};next();return ()=>{stopped=true;if(timer!==null)clearTimeout(timer)}}
+module.exports={SMITH_LINES,startWaitingLines,setGenerationIndicator};
